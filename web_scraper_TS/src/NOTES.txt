@@ -1,0 +1,60 @@
+
+Ideas for Extending the Project
+Make the script run on a timer and deploy it to a server. Have it email you every so often with a report
+
+Add more robust error checking so that you can crawl larger sites without issues
+
+Count external links, as well as internal links, and add them to the report
+
+Use a graphics library to create an image that shows the links between the pages as a graph visualization
+
+Make requests concurrently to speed up the crawling process
+
+Add a README.md file explaining to users how to clone your git repo and get started
+
+======================================================
+
+
+Data Flow for extractPageeData() function:
+
+1. getHTML(currentURL) -- fetches the page's HTML
+
+2. extractPageData(html, currentURL) -- Extracts heading, paragraph, links, images, and URL
+
+3. this.pages[normalizedURL] = data -- Stores the extracted page record 
+
+4. data.outgoing_links -- Provides URL's for rercursive crawling
+
+
+Example of one page record in object:
+
+        export const pageData: Record<string, ExtractedPageData> = {
+        "learnwebscraping.dev/practice/ecommerce/products/ashenfang-longsword-fan-1001":
+            {
+            url: "https://learnwebscraping.dev/practice/ecommerce/products/ashenfang-longsword-fan-1001/",
+            heading: "Ashenfang Longsword",
+            first_paragraph:
+                "A balanced battlefield blade with a smoldering fuller and leather-wrapped grip.",
+            outgoing_links: [
+                "https://learnwebscraping.dev/practice/ecommerce/",
+                "https://learnwebscraping.dev/practice/ecommerce/categories/",
+                "https://learnwebscraping.dev/practice/ecommerce/categories/longswords/",
+            ],
+            image_urls: [
+                "https://learnwebscraping.dev/images/catalog/longswords.svg",
+            ],
+            },
+        };
+
+
+Converted object content to JSON in report.ts:
+
+        [
+        {
+            "url": "https://learnwebscraping.dev/practice/ecommerce/",
+            "heading": "Ecommerce",
+            "first_paragraph": "...",
+            "outgoing_links": [],
+            "image_urls": []
+        }
+        ]
